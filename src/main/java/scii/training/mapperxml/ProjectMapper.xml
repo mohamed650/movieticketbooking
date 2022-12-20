@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="scii.training.mapper.IMapper">
+	<resultMap type="UserModel" id="userInfo">
+		<result property="email_id" column="email_id" />
+		<result property="user_name" column="user_name" />
+		<result property="contactno" column="contactno" />
+		<result property="password" column="password" />
+		<result property="address" column="address" />
+	</resultMap>
+	<resultMap type="TheatreModel" id="theatreInfo">
+		<result property="theatre_id" column="theatre_id" />
+		<result property="theatre_name" column="theatre_name" />
+		<result property="theatre_address" column="theatre_address" />
+		<result property="maximum_seats" column="maximum_seats" />
+		<result property="theatre_screens" column="theatre_screens" />
+	</resultMap>
+	<resultMap type="MovieModel" id="movieInfo">
+		<result property="theatre_id" column="theatre_id" />
+		<result property="theatre_name" column="theatre_name" />
+		<result property="movie_id" column="movie_id" />
+		<result property="movie_name" column="movie_name" />
+		<result property="movie_language" column="movie_language" />
+		<result property="movie_standard" column="movie_standard" />
+		<result property="movie_genre" column="movie_genre" />
+		<result property="movie_start_date" column="movie_start_date" />
+		<result property="movie_end_date" column="movie_end_date" />
+		<result property="ticket_price" column="ticket_price" />
+		<result property="run_time" column="run_time" />
+		<result property="imgfile" column="imgfile" />
+	</resultMap>
+	<resultMap type="TheatreMovieModel" id="theatremovieInfo">
+		<result property="theatre_id" column="theatre_id" />
+		<result property="movie_id" column="movie_id" />
+		<result property="movie_name" column="movie_name" />
+		<result property="theatre_name" column="theatre_name" />
+		<result property="movie_start_date" column="movie_start_date" />
+		<result property="movie_end_date" column="movie_end_date" />
+		<result property="ticket_price" column="ticket_price" />
+	</resultMap>
+	<resultMap type="ReservationModel" id="reservationInfo">
+		<result property="reservation_id" column="reservation_id" />
+		<result property="email_id" column="email_id" />
+		<result property="theatre_id" column="theatre_id" />
+		<result property="theatre_name" column="theatre_name" />
+		<result property="movie_id" column="movie_id" />
+		<result property="movie_name" column="movie_name" />
+		<result property="date_of_reservation" column="date_of_reservation" />
+		<result property="show_time" column="show_time" />
+		<result property="time_of_reservation" column="time_of_reservation" />
+		<result property="no_of_seatsbooked" column="no_of_seatsbooked" />
+		<result property="total_price" column="total_price" />
+		<result property="no_of_availableseats" column="no_of_availableseats" />
+		<result property="created_date" column="created_date" />
+		<result property="updated_date" column="updated_date" />
+		<result property="ticket_exist_flg" column="ticket_exist_flg" />
+	</resultMap>
+	<resultMap type="ShowTimingsModel" id="showTimingsInfo">
+		<result property="theatre_id" column="theatre_id" />
+		<result property="movie_id" column="movie_id" />
+		<result property="show_timings" column="show_timings" />
+	</resultMap>
+	<resultMap type="MovieDescriptionModel" id="moviedescInfo">
+		<result property="movieid" column="movieid" />
+		<result property="moviename" column="moviename" />
+		<result property="moviedirector" column="moviedirector" />
+		<result property="movieproducer" column="movieproducer" />
+		<result property="movieactor" column="movieactor" />
+		<result property="movieactress" column="movieactress" />
+	</resultMap>
+	
+	<select id="checkUserById" parameterType="scii.training.model.UserModel" resultMap="userInfo">
+		select
+			EMAIL_ID,
+			USER_NAME,
+			CONTACTNO,
+			PASSWORD,
+			ADDRESS
+		from
+			MOVIEUSERS_220011
+		<if test="email_id != null">
+			where
+				EMAIL_ID = #{email_id}
+		</if>
+	</select>
+	
+	<select id="checkUser" parameterType="scii.training.model.UserModel" resultMap="userInfo">
+		select
+			EMAIL_ID,
+			USER_NAME,
+			CONTACTNO,
+			PASSWORD,
+			ADDRESS
+		from
+			MOVIEUSERS_220011
+		where
+			EMAIL_ID = #{email_id}
+		and
+			PASSWORD = #{password}
+	</select>
+	
+	<select id="loadTheatre" parameterType="scii.training.model.TheatreModel" resultMap="theatreInfo">
+		select
+			THEATRE_ID,
+			THEATRE_NAME
+		from
+			MOVIETHEATRE_220011
+	</select>
+	
+	<select id="loadTheatreSeats" parameterType="scii.training.model.TheatreModel" resultMap="theatreInfo">
+		select
+			THEATRE_ID,
+			THEATRE_NAME,
+			MAXIMUM_SEATS
+		from
+			MOVIETHEATRE_220011
+		<if test="theatre_id != null">
+			where
+				THEATRE_ID = #{theatre_id}
+		</if>
+	</select>
+	
+	<select id="loadMovie" parameterType="scii.training.model.MovieModel" resultMap="movieInfo">
+		select
+			MOVIE_ID,
+			MOVIE_NAME
+		from
+			MOVIE_220011
+	</select>
+	
+	<select id="loadTheatreShows" parameterType="scii.training.model.ShowTimingsModel" resultMap="showTimingsInfo">
+		select
+			THEATRE_ID,
+			MOVIE_ID,
+			SHOW_TIMINGS
+		from
+			MOVIETIMINGS_220011
+		<if test="theatre_id != null">
+			<if test="movie_id != null">
+				where
+					MOVIE_ID = #{movie_id} and THEATRE_ID = #{theatre_id}  
+			</if>
+		</if>
+	</select>
+	
+	<select id="loadTheatreNames" parameterType="scii.training.model.TheatreMovieModel" resultMap="theatremovieInfo">
+		select
+			T.THEATRE_NAME, T.THEATRE_ID, M.MOVIE_ID
+		from MOVIETHEATRE_220011  T
+		inner join MOVIE_220011  M
+		on T.THEATRE_ID = M.THEATRE_ID
+		<if test="movie_id != null">
+			where
+				M.MOVIE_ID = #{movie_id}
+		</if>
+	</select>
+	
+	<select id="loadMovieNames" parameterType="scii.training.model.TheatreMovieModel" resultMap="theatremovieInfo">
+		select
+			M.MOVIE_NAME, T.THEATRE_ID, M.MOVIE_ID
+		from MOVIE_220011  M
+		inner join MOVIETHEATRE_220011  T
+		on M.THEATRE_ID = T.THEATRE_ID
+		<if test="theatre_id != null">
+			where
+				M.THEATRE_ID = #{theatre_id}
+		</if>
+	</select>
+	
+	<select id="loadMovieDates" parameterType="scii.training.model.MovieModel" resultMap="movieInfo">
+		select
+			THEATRE_ID,
+			MOVIE_START_DATE,
+			MOVIE_END_DATE
+		from
+			MOVIE_220011
+		where
+			THEATRE_ID = #{theatre_id} AND MOVIE_ID = #{movie_id}
+	</select>
+	
+	<select id="loadTicketPrice" parameterType="scii.training.model.TheatreMovieModel" resultMap="theatremovieInfo">
+		select
+			TICKET_PRICE
+		from
+			MOVIE_220011
+		where
+			THEATRE_ID = #{theatre_id} and MOVIE_ID = #{movie_id}
+	</select>
+	
+	<select id="loadDescription" parameterType="scii.training.model.MovieDescriptionModel" resultMap="moviedescInfo">
+		select
+			MOVIEID,
+			MOVIENAME,
+			MOVIEDIRECTOR,
+			MOVIEPRODUCER,
+			MOVIEACTOR,
+			MOVIEACTRESS
+		from
+			MOVIEDESCRIPTION_220011
+		where
+			MOVIENAME = #{moviename}
+	</select>
+	
+	<select id="checkDescription" parameterType="scii.training.model.MovieDescriptionModel" resultMap="moviedescInfo">
+		select
+			MOVIEID,
+			MOVIENAME,
+			MOVIEDIRECTOR,
+			MOVIEPRODUCER,
+			MOVIEACTOR,
+			MOVIEACTRESS
+		from
+			MOVIEDESCRIPTION_220011
+		where
+			MOVIEID = #{movieid}
+	</select>
+	
+	<select id="checkTransaction" parameterType="scii.training.model.ReservationModel" resultMap="reservationInfo">
+		select
+			THEATRE_ID,
+			MOVIE_ID,
+			SHOW_TIME,
+			NO_OF_SEATSBOOKED,
+			DATE_OF_RESERVATION,
+			NO_OF_AVAILABLESEATS,
+			CREATED_DATE,
+			UPDATED_DATE
+		from
+			TRANSACTIONS_220011
+		where
+			THEATRE_ID = #{theatre_id} AND MOVIE_ID = #{movie_id} AND SHOW_TIME = #{show_time}::time AND DATE_OF_RESERVATION = TO_DATE(#{date_of_reservation}, 'YYYY/MM/DD') 
+	</select>
+	
+	<select id="loadMovieInformation" parameterType="scii.training.model.MovieModel" resultMap="movieInfo">
+		select DISTINCT
+			MOVIE_ID,
+			MOVIE_NAME,
+			IMGFILE,
+			THEATRE_NAME
+		from
+			MOVIE_220011
+		order by
+			MOVIE_ID
+	</select>
+	
+	<!-- <select id="loadTheatreInformation" parameterType="scii.training.model.TheatreModel" resultMap="theatreInfo">
+		select
+			THEATRE_ID,
+			THEATRE_NAME
+		from
+			MOVIETHEATRE_220011
+		order by
+			THEATRE_ID
+	</select> -->
+	
+	<select id="checkTheatreById" parameterType="scii.training.model.TheatreModel" resultMap="theatreInfo">
+		select
+			THEATRE_ID,
+			THEATRE_NAME
+		from
+			MOVIETHEATRE_220011
+		where
+			THEATRE_ID = #{theatre_id}
+	</select>
+	
+	<select id="checkMovieById" parameterType="scii.training.model.MovieModel" resultMap="movieInfo">
+		select
+			MOVIE_ID,
+			MOVIE_NAME
+		from
+			MOVIE_220011
+		where
+			MOVIE_ID = #{movie_id} AND THEATRE_ID = #{theatre_id}
+	</select>
+	
+	<select id="checkShowTimings" parameterType="scii.training.model.TheatreMovieModel" resultMap="theatremovieInfo">
+		select
+			THEATRE_ID,
+			MOVIE_ID,
+			SHOW_TIMINGS
+		from
+			MOVIETIMINGS_220011
+		where
+			THEATRE_ID = #{theatre_id} AND MOVIE_ID = #{movie_id} AND SHOW_TIMINGS = #{show_timings}::time
+	</select>
+	
+	<select id="loadTicketDetails" parameterType="scii.training.model.ReservationModel" resultMap="reservationInfo">
+		select
+			RESERVATION_ID,
+			EMAIL_ID,
+			MOVIE_ID,
+			MOVIE_NAME,
+			THEATRE_NAME,
+			DATE_OF_RESERVATION,
+			SHOW_TIME,
+			NO_OF_SEATSBOOKED,
+			TOTAL_PRICE,
+			TICKET_EXIST_FLG
+		from
+			RESERVATIONS_220011
+		where 
+			email_id = #{email_id}
+	</select>
+	
+	<select id="checkBooking" parameterType="scii.training.model.ReservationModel" resultMap="reservationInfo">
+		select
+			THEATRE_ID,
+			THEATRE_NAME,
+			MOVIE_ID,
+			MOVIE_NAME,
+			SHOW_TIME,
+			NO_OF_SEATSBOOKED,
+			DATE_OF_RESERVATION,
+			NO_OF_AVAILABLESEATS,
+			CREATED_DATE,
+			UPDATED_DATE
+		from
+			TRANSACTIONS_220011
+		where
+			THEATRE_NAME = #{theatre_name} AND
+			MOVIE_NAME = #{movie_name} AND
+			SHOW_TIME = #{show_time}::time AND
+			DATE_OF_RESERVATION = TO_DATE(#{date_of_reservation}, 'YYYY/MM/DD')
+	</select>
+	
+	<select id="getAllReservations" parameterType="scii.training.model.ReservationModel" resultMap="reservationInfo">
+		select
+			RESERVATION_ID,
+			EMAIL_ID,
+			MOVIE_NAME,
+			THEATRE_NAME,
+			DATE_OF_RESERVATION,
+			SHOW_TIME,
+			NO_OF_SEATSBOOKED,
+			TOTAL_PRICE
+		from
+			RESERVATIONS_220011
+		order by RESERVATION_ID asc;
+	</select>
+	
+	<insert id="insertUser" parameterType="scii.training.model.UserModel">
+		insert into
+		MOVIEUSERS_220011(
+			EMAIL_ID,
+			USER_NAME,
+			CONTACTNO,
+			PASSWORD,
+			ADDRESS)
+		values(
+			#{email_id},
+			#{user_name},
+			#{contactno},
+			#{password},
+			#{address})
+	</insert>
+	
+	<insert id="bookTicket" parameterType="scii.training.model.ReservationModel">
+		insert into
+		RESERVATIONS_220011(
+			EMAIL_ID,
+			MOVIE_ID,
+			MOVIE_NAME,
+			THEATRE_ID,
+			THEATRE_NAME,
+			DATE_OF_RESERVATION,
+			SHOW_TIME,
+			TIME_OF_RESERVATION,
+			NO_OF_SEATSBOOKED,
+			TOTAL_PRICE)
+		values(
+			#{email_id},
+			#{movie_id},
+			#{movie_name},
+			#{theatre_id},
+			#{theatre_name},
+			TO_DATE(#{date_of_reservation}, 'YYYY/MM/DD'),
+			TO_TIMESTAMP(#{show_time}, 'HH24:MI:SS'),
+			now(),
+			#{no_of_seatsbooked},
+			#{total_price})
+	</insert>
+	
+	<insert id="insertTransaction" parameterType="scii.training.model.ReservationModel">
+		insert into
+		TRANSACTIONS_220011(
+			THEATRE_ID,
+			THEATRE_NAME,
+			MOVIE_ID,
+			MOVIE_NAME,
+			SHOW_TIME,
+			DATE_OF_RESERVATION,
+			NO_OF_SEATSBOOKED,
+			NO_OF_AVAILABLESEATS,
+			CREATED_DATE,
+			UPDATED_DATE)
+		values(
+			#{theatre_id},
+			#{theatre_name},
+			#{movie_id},
+			#{movie_name},
+			TO_TIMESTAMP(#{show_time}, 'HH24:MI:SS'),
+			TO_DATE(#{date_of_reservation}, 'YYYY/MM/DD'),
+			#{no_of_seatsbooked},
+			#{no_of_availableseats},
+			now(),
+			now())	
+	</insert>
+	
+	<update id="updateTransaction" parameterType="scii.training.model.ReservationModel">
+		update
+			TRANSACTIONS_220011
+		SET
+			THEATRE_ID = #{theatre_id},
+			THEATRE_NAME = #{theatre_name},
+			MOVIE_ID = #{movie_id},
+			MOVIE_NAME = #{movie_name},
+			SHOW_TIME = TO_TIMESTAMP(#{show_time}, 'HH24:MI:SS'),
+			DATE_OF_RESERVATION = TO_DATE(#{date_of_reservation}, 'YYYY/MM/DD'),
+			NO_OF_SEATSBOOKED = #{no_of_seatsbooked},
+			NO_OF_AVAILABLESEATS = #{no_of_availableseats},
+			CREATED_DATE = now(),
+			UPDATED_DATE = now()
+		where
+			THEATRE_ID = #{theatre_id} AND 
+			MOVIE_ID = #{movie_id} AND 
+			SHOW_TIME = #{show_time}::time AND 
+			DATE_OF_RESERVATION = TO_DATE(#{date_of_reservation}, 'YYYY/MM/DD')
+	</update>
+	
+	<insert id="insertTheatre" parameterType="scii.training.model.TheatreModel">
+		insert into
+		MOVIETHEATRE_220011(
+			THEATRE_ID,
+			THEATRE_NAME,
+			THEATRE_ADDRESS,
+			MAXIMUM_SEATS,
+			THEATRE_SCREENS)
+		values(
+			#{theatre_id},
+			#{theatre_name},
+			#{theatre_address},
+			#{maximum_seats},
+			#{theatre_screens})
+	</insert>
+	
+	<insert id="insertMovie" parameterType="scii.training.model.MovieModel">
+		insert into
+		MOVIE_220011(
+		THEATRE_ID,
+		MOVIE_ID,
+		MOVIE_NAME,
+		THEATRE_NAME,
+		MOVIE_LANGUAGE,
+		MOVIE_STANDARD,
+		MOVIE_GENRE,
+		MOVIE_START_DATE,
+		MOVIE_END_DATE,
+		TICKET_PRICE,
+		RUN_TIME,
+		IMGFILE)
+	values(
+		#{theatre_id},
+		#{movie_id},
+		#{movie_name},
+		#{theatre_name},
+		#{movie_language},
+		#{movie_standard},
+		#{movie_genre},
+		TO_DATE(#{movie_start_date}, 'YYYY/MM/DD'),
+		TO_DATE(#{movie_end_date}, 'YYYY/MM/DD'),
+		#{ticket_price},
+		TO_TIMESTAMP(#{run_time}, 'HH24:MI:SS'),
+		#{imgfile})
+	</insert>
+	
+	<insert id="insertTimings" parameterType="scii.training.model.TheatreMovieModel">
+		insert into
+		MOVIETIMINGS_220011(
+			THEATRE_ID,
+			MOVIE_ID,
+			SHOW_TIMINGS)
+		values(
+			#{theatre_id},
+			#{movie_id},
+			TO_TIMESTAMP(#{show_timings}, 'HH24:MI:SS'))
+	</insert>
+	
+	<insert id="insertDescription" parameterType="scii.training.model.MovieDescriptionModel">
+		insert into
+		MOVIEDESCRIPTION_220011(
+			MOVIEID,
+			MOVIENAME,
+			MOVIEDIRECTOR,
+			MOVIEPRODUCER,
+			MOVIEACTOR,
+			MOVIEACTRESS)
+		values(
+			#{movieid},
+			#{moviename},
+			#{moviedirector},
+			#{movieproducer},
+			#{movieactor},
+			#{movieactress})
+	</insert>
+	
+	<update id="deleteBooking" parameterType="scii.training.model.ReservationModel">
+		update
+			RESERVATIONS_220011
+		set
+			TICKET_EXIST_FLG = #{ticket_exist_flg}
+		where
+			RESERVATION_ID = #{reservation_id}
+	</update>
+	
+	<update id="updateBooking" parameterType="scii.training.model.ReservationModel">
+		update
+			TRANSACTIONS_220011
+		set
+			NO_OF_SEATSBOOKED = #{no_of_seatsbooked},
+			NO_OF_AVAILABLESEATS = #{no_of_availableseats},
+			CREATED_DATE = now(),
+			UPDATED_DATE = now()
+		where
+			THEATRE_NAME = #{theatre_name} AND 
+			MOVIE_NAME = #{movie_name} AND 
+			SHOW_TIME = #{show_time}::time AND 
+			DATE_OF_RESERVATION = TO_DATE(#{date_of_reservation}, 'YYYY/MM/DD')
+	</update>
+	
+</mapper>

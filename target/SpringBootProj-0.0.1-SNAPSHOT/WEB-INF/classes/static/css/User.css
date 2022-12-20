@@ -1,0 +1,337 @@
+@charset "ISO-8859-1";
+*{
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+body{
+  width: 100%;
+  height: 100vh;
+  background-color: #E5DDC8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body::before{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  opacity: .40;
+}
+header{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+header nav{			
+  width: 100%;
+  height: 7.5%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header nav .brand{
+  width: 20%;
+  height: 100%;
+  color: #fff;
+  font-family: "system-ui";
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+header nav .search{
+  width: 20%;
+  height: 100%;
+  margin-left: 35%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+header nav .search input{
+  width: 90%;
+  margin-bottom: 5px;
+  padding: 5px 0px 3px 15px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+header nav .logoutbtn{
+	margin-left: 15px;
+	margin-top: 15px;
+}
+header nav .logoutbtn p{
+	display: inline;
+	color: #fff;
+}
+header nav .logoutbtn a i{
+	display: inline;
+	align-items: flex-end;
+	justify-content: flex-end;
+	background: none;
+	outline: none;
+	color: #fff;
+	cursor: pointer;
+}
+header section{
+  width: 95%;
+  height: 56.5%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+header section .content{
+  width: 300px;
+  height: 70%;
+  padding-left: 60px;
+}
+header section .content h1{
+  color: #fff;
+  font-family: "system-ui";
+  font-size: 35px;
+}
+header section .content h1 span{
+  padding: 0px 15px;
+}
+header section .content h3{
+  color: #fff;
+  font-family: "system-ui";
+
+}
+header section .content .rating{
+  color: #fff;
+  font-size: 14px;
+  margin-top: 15px;
+  color: rgb(235, 235, 32);
+}
+header section .content .genre{
+  color: #fff;
+  margin-top: 3px;
+}
+header section .content .genre span{
+  padding: 0px 5px;
+}
+header section .content .btns{
+  margin-top: 5px;
+  display: flex;
+}
+header section .content .btns button{
+  background: rgb(75, 75, 75);
+  border: none;
+  outline: none;
+  padding: 8px 13px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all .3s ease-in-out;
+}
+header section .content .btns button:hover{
+  background: rgb(97, 191, 228);
+}
+header section .content .btns button:nth-child(2){
+  background: #fff;
+}
+header section .content p{
+  color: #fff;
+  font-size: 10px;
+  font-family: sans-serif;
+  margin-top: 15px;
+}
+header section .searchcontent{
+  width: 40%;
+  margin-left: 220px;
+  /*height: 100%;*/
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+header section .searchcontent input{
+  width: 90%;
+  padding: 5px 0px 3px 15px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+header section .searchcontent #moviename{
+	width : 250px;
+	margin-right: 15px;
+}
+header section .searchcontent #theatrename{
+	width : 250px;
+}
+header section .bookbutton{
+	margin-left: 5px;
+}
+header section .bookbutton #booknow{
+	margin-left: 15px;
+}
+header section .bookbutton #viewTicket{
+	margin-left: 15px;
+}
+header .cards{
+  width: 100%;
+  height: 36%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header .cards .card{
+  position: relative;
+  width: 245px;
+  height: 205px;
+  margin: 0px 5px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+header .cards .card:hover{
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+header .cards .card img{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+header .cards .card .imgcontent{
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  border-radius: 0px 0px 10px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  bottom: 0;
+  z-index: 2;
+}
+header .cards .card .imgcontent::before{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 0px 0px 10px 10px;
+  background: rgba(185, 185, 185, 0.1);
+  backdrop-filter: blur(5px);
+  z-index: -1;
+}
+header .cards .card .imgcontent h4{
+  color: #fff;
+  font-size: 10px;
+}
+header .cards .card .imgcontent p{
+  color: #fff;
+  font-size: 8px;
+}
+header .cards .card .imgcontent h4 span{
+	display: none;
+}
+
+header .theatres{
+  width: 100%;
+  height: 36%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header .theatres .card{
+  position: relative;
+  width: 145px;
+  height: 205px;
+  margin: 0px 5px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+header .theatres .card:hover{
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+header .theatres .card img{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+header .theatres .card .imgcontent{
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  border-radius: 0px 0px 10px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  bottom: 0;
+  z-index: 2;
+}
+header .theatres .card .imgcontent::before{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 0px 0px 10px 10px;
+  background: rgba(185, 185, 185, 0.1);
+  backdrop-filter: blur(5px);
+  z-index: -1;
+}
+header .theatres .card .imgcontent h4{
+  color: #fff;
+  font-size: 10px;
+}
+header .theatres .card .imgcontent p{
+  color: #fff;
+  font-size: 8px;
+}
+header .theatres .card .imgcontent h4 span{
+	display: none;
+}
+
+.bookbutton .btn{
+	background-color: #01949A;
+}
+.bookbutton .btn:hover{
+	border: 1px solid #004369;
+	transition: all 0.3s ease-in-out;
+	color: #004369;
+}
+
+
+
+.modal-body .modal-row{
+	margin-top: 15px;
+}
+.modal-body .modal-row input{
+	width: 100%;
+	outline: none;
+	padding: 5px 0px 5px 10px; 
+}
+.modal-body .modal-row select{
+	width: 100%;
+	outline: none;
+	padding: 5px 0px 5px 10px; 
+}
+
+#moviecontent .modal-dialog .modal-content .modal-body p{
+	margin: 10px;
+	padding:8px;
+}
+#moviecontent .modal-dialog .modal-content .modal-body p span{
+	color: #131313;
+}
+
+@media only screen and (max-width: 1190px){
+  header .cards{
+    overflow-x: auto;
+  }
+}
+
+@media only screen and (max-width: 641px){
+  header nav ul li{
+    padding: 3px 7px;
+  }
+  header nav ul li a{
+    font-size: 10px;
+  }
+}

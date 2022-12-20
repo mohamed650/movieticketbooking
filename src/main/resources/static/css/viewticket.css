@@ -1,0 +1,97 @@
+body{
+	margin: 0px;
+	padding: 0px;
+	background-color: #E5DDC8;
+}
+nav{
+	background-color: #DB1F48;
+}
+.container-fluid .brand{
+	color: #fff;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+.logoutbtn p{
+	font-size: 1.1em;
+	margin-right: 25px;
+}
+.logoutbtn a i{
+	color: #fff;
+	cursor: pointer;
+}
+
+.maincontainer{
+	position: absolute;
+	margin:auto;
+	margin-left:50px;
+	margin-top: 100px;
+	padding: 10px;
+}
+
+.maincontainer .btn{
+	background-color: #01949A;
+	margin-bottom: 10px;
+}
+.maincontainer .btn:hover{
+	border: 1px solid #004369;
+	transition: all 0.3s ease-in-out;
+	color: #004369;
+}
+
+.modal-body .modal-row{
+	margin-top: 15px;
+}
+.modal-body .modal-row input{
+	width: 100%;
+	outline: none;
+	padding: 5px 0px 5px 10px; 
+}
+.modal-body .modal-row select{
+	width: 100%;
+	outline: none;
+	padding: 5px 0px 5px 10px; 
+}
+
+/* Tabulator CSS*/
+
+/*Theme the Tabulator element*/
+#ticketTable{
+    background-color:#ccc;
+    border: 1px solid #333;
+    border-radius: 10px;
+}
+
+/*Theme the header*/
+#ticketTable .tabulator-header {
+    background-color:#333;
+    color:#333;
+}
+
+/*Allow column header names to wrap lines*/
+#ticketTable .tabulator-header .tabulator-col,
+#ticketTable .tabulator-header .tabulator-col-row-handle {
+    white-space: normal;
+}
+
+/*Color the table rows*/
+#ticketTable .tabulator-tableHolder .tabulator-table .tabulator-row{
+    color:#fff;
+    background-color: #666;
+}
+
+/*Color even rows*/
+#ticketTable .tabulator-tableHolder .tabulator-table .tabulator-row:nth-child(even) {
+    background-color: #444;
+}
+
+@media only screen and (max-width: 641px){
+	#ticketTable{
+		max-width: 400px;
+	}
+}
+
+@media only screen and (max-width: 1190px){
+	#ticketTable{
+		width: 800px;
+	}
+}
