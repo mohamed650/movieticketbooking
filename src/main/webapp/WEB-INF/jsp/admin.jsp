@@ -39,6 +39,7 @@
 	   <button type="button" class="btn" id="addshows" data-bs-dismiss="modal">Add Show Timings</button>
 	   <button type="button" class="btn" id="adddesc" data-bs-dismiss="modal">Add Description</button>
 	   <button type="button" class="btn" id="genReport">Generate Report</button>
+	   <button type="button" class="btn" id="genExcel">Generate Excel</button>
 	</div>
 	
     <fieldset class="scheduler-border" style="margin-top: 25px;">

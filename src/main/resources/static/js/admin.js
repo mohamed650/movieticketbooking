@@ -448,7 +448,11 @@ $("#adddesc").click(function(){
 
 $("#genReport").click(function(){
 	window.location.href="/pdfReport";
-})
+});
+
+$("#genExcel").click(function(){
+	window.location.href="/excelGenerate";
+});
 
 function logout(){
 	$.ajax({

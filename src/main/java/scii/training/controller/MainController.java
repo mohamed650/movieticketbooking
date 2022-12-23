@@ -42,6 +42,7 @@ import scii.training.model.TheatreModel;
 import scii.training.model.TheatreMovieModel;
 import scii.training.model.UserModel;
 import scii.training.service.IService;
+import scii.training.util.ExportExcel;
 import scii.training.util.GeneratedPdfReport;
 import scii.training.util.InvoiceReport;
 
@@ -576,6 +577,19 @@ public class MainController {
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
+	}
+	
+	@RequestMapping("/excelGenerate")
+	public void excelGenerate(HttpServletResponse response) throws Exception {
+		response.setContentType("application/octet-stream");
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_hh:mm:ss");
+		String currentDateTime = dateFormatter.format(new Date());
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachement; filename=reservations_"+ currentDateTime + ".xlsx";
+		response.setHeader(headerKey, headerValue);
+		List<ReservationModel> reservations = iservice.getAllReservations();
+		ExportExcel excelExport = new ExportExcel(reservations);
+		excelExport.export(response);
 	}
 	
 }
