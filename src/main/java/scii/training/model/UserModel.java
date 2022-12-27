@@ -10,4 +10,5 @@ public class UserModel {
 	private String password;
 	private String contactno;
 	private String address;
+	private String otp;
 }

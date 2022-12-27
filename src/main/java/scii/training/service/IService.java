@@ -77,5 +77,7 @@ public interface IService {
 	
 	String sendMail(String email, String path);
 	
+	Object sendOtp(String email, int length);
+	
 	public List<ReservationModel> getAllReservations();
 }

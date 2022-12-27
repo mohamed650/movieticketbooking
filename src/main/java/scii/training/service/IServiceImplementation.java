@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import scii.training.model.ShowTimingsModel;
 import scii.training.model.TheatreModel;
 import scii.training.model.TheatreMovieModel;
 import scii.training.model.UserModel;
+import scii.training.util.GenerateOtp;
 
 @Component
 public class IServiceImplementation implements IService {
@@ -253,6 +255,34 @@ public class IServiceImplementation implements IService {
 	public List<MovieDescriptionModel> checkDescription(MovieDescriptionModel movieDescription) {
 		List<MovieDescriptionModel> moviedescList = imapper.checkDescription(movieDescription);
 		return moviedescList;
+	}
+
+	@Override
+	public Object sendOtp(String email, int length) {
+		try {
+
+			GenerateOtp getOtp = new GenerateOtp();
+			char[] otp = getOtp.generateOtp(length);
+			String strOtp = String.copyValueOf(otp);
+			System.out.println(strOtp);
+			SimpleMailMessage mailMessage = new SimpleMailMessage();
+			String recepient = email;
+			System.out.println(recepient);
+			String text = "Your One time Password is : " + strOtp;
+			System.out.println(text);
+			String subject = "OTP for Login";
+			mailMessage.setFrom(sender);
+			mailMessage.setTo(recepient);
+			mailMessage.setText(text);
+			mailMessage.setSubject(subject);
+			
+			javaMailSender.send(mailMessage);
+			//String status = "Mail Sent Successfully....";
+			String status = strOtp;
+			return status;
+		} catch(Exception e) {
+			return "Error while Sending Mail";
+		}
 	}
 
 }

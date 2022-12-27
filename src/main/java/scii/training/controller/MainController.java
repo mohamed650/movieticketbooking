@@ -68,6 +68,24 @@ public class MainController {
 		return modelAndView;
 	}
 	
+	@RequestMapping("/getOtp")
+	public Object getOtp(String email, HttpServletRequest request, HttpSession httpSession) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		email = request.getParameter("email_id");
+		int length = 6;
+		String status =  (String) iservice.sendOtp(email, length);
+		httpSession.setAttribute("OTP", status);
+		logger.log(Level.INFO, status);
+		if(status != null) {
+			map.put("MESSAGE", "Success");
+		}else {
+			map.put("MESSAGE", "Failed");
+		}
+		return mapper.writeValueAsString(map);
+	}
+	
 	@RequestMapping("/loginUser")
 	public @ResponseBody Object loginUser(HttpSession httpSession, @ModelAttribute ("user") UserModel user) throws Exception{
 		Map<String, String> map = new HashMap<String, String>();
@@ -75,18 +93,24 @@ public class MainController {
 		UserModel loginUser = user;
 		String email = loginUser.getEmail_id();
 		String password = loginUser.getPassword();
-		loginUser.setEmail_id(email);
-		loginUser.setPassword(password);
-		httpSession.setAttribute("email", email);
-		List<UserModel> loginList = iservice.checkUser(loginUser);
-		httpSession.setAttribute("username", loginList.get(0).getUser_name());
-		httpSession.setAttribute("contactno", loginList.get(0).getContactno());
-		if(loginList.size() > 0) {
-			map.put("MESSAGE", "Success");
-			logger.log(Level.INFO, email+ " Logged In...");
+		String otp = (String) httpSession.getAttribute("OTP");
+		String userOtp = loginUser.getOtp();
+		if(otp.equals(userOtp)) {
+			loginUser.setEmail_id(email);
+			loginUser.setPassword(password);
+			httpSession.setAttribute("email", email);
+			List<UserModel> loginList = iservice.checkUser(loginUser);
+			httpSession.setAttribute("username", loginList.get(0).getUser_name());
+			httpSession.setAttribute("contactno", loginList.get(0).getContactno());
+			if(loginList.size() > 0) {
+				map.put("MESSAGE", "Success");
+				logger.log(Level.INFO, email+ " Logged In...");
+			}else {
+				map.put("MESSAGE", "USERNOTEXIST");
+				logger.log(Level.WARN, "Invalid Credentials");
+			}
 		}else {
-			map.put("MESSAGE", "USERNOTEXIST");
-			logger.log(Level.WARN, "Invalid Credentials");
+			map.put("MESSAGE", "Invalid OTP");
 		}
 		return mapper.writeValueAsString(map);
 	}
@@ -591,5 +615,7 @@ public class MainController {
 		ExportExcel excelExport = new ExportExcel(reservations);
 		excelExport.export(response);
 	}
+	
+	
 	
 }

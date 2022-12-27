@@ -19,6 +19,13 @@
 		<div class="login-content">
 			<form action="">
 				<h2 class="title">Welcome</h2>
+				<div class="select-div">
+           		    <select class="input" id="selectRole">
+           		    	<option value="-1" disabled>-- Select Your Role --</option>
+           		    	<option value="0">User</option>
+           		    	<option value="1">Admin</option>
+           		    </select>	
+            	</div>
            		<div class="input-div email">
            		   <div class="i"> 
            		    	<i class="fas fa-envelope"></i>
@@ -37,6 +44,16 @@
            		    	<input type="password" class="input" id="password">
             	   </div>
             	</div>
+            	<div class="input-div otp" id="otpfield">
+           		   <div class="i"> 
+           		    	<i class="fas fa-key"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<h5>OTP</h5>
+           		    	<input type="text" class="input" id="otp">
+            	   </div>
+            	</div>
+            	<input type="button" class="btn" id="otpbtn" value="Get Otp" onclick="getOtp()">
             	<input type="button" class="btn" value="Login" onclick="loginValidate()">
             	<input type="button" class="btn" value="SignUp" onclick="login()">
             </form>
